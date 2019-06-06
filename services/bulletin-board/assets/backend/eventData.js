@@ -1,7 +1,7 @@
 const CosmosClient = require("@azure/cosmos").CosmosClient;
-var dbConfig = require('../../config/dbConfig');
-var cosmosDbConfig = require('../../config/cosmosDbConfig');
-var log = require('../../log');
+var dbConfig = require('../config/dbConfig');
+var cosmosDbConfig = require('../config/cosmosDbConfig');
+var log = require('../log');
 
 class EventData {
 

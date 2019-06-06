@@ -1,7 +1,4 @@
 #!/bin/sh
-
-cat /run/configuration
-
 mkdir -p /project
 
 # update docker-compose from parameters

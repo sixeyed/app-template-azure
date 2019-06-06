@@ -1,4 +1,4 @@
-const EventData = require('./models/eventData');
+const EventData = require('./eventData');
 var log = require('../log');
 
 const eventData = new EventData();

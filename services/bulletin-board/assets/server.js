@@ -8,7 +8,7 @@ var express        = require('express'),
     api            = require('./backend/api'),
     log            = require('./log');
 
-const EventData = require('./backend/models/eventData');
+const EventData = require('./backend/eventData');
 
 var app = module.exports = express();
 

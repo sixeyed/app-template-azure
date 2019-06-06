@@ -6,5 +6,5 @@ services:
     ports:
       - {{ .Parameters.externalPort }}:8080 
     secrets:
-    - source: cosmos-connection #TODO - replace this with the name of the service with serviceId=cosmosDb
+    - source: cosmos-connection
       target: /app/config/cosmosDbConfig.js
