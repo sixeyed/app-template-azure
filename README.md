@@ -4,9 +4,15 @@ A Docker Application Template sample, spinning up a Cosmos DB database in Azure,
 
 ## Pre-requisites
 
-A version of Docker Desktop Enterprise with Application Designer.
+1. A version of Docker Desktop Enterprise with Application Designer.
 
-> This is a Linux app, so on Windows you need to use Linux container mode
+> The demo is a Linux app, so on Windows you need to use Linux container mode
+
+2. A Service Principal in Azure. You can create one with the [Azure command line]():
+
+```
+az ad sp create-for-rbac --name AppTemplate --password MyGoodPassword
+```
 
 ## Setup
 
