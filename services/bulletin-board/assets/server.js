@@ -8,7 +8,21 @@ var express        = require('express'),
     api            = require('./backend/api'),
     log            = require('./log');
 
+const EventData = require('./backend/models/eventData');
+
 var app = module.exports = express();
+
+const eventData = new EventData();
+eventData.init(err => {
+  console.error(err);
+})
+.catch(err => {
+  console.error(err);
+  console.error("Shutting down because there was an error setting up the database.");
+  process.exit(1);
+});
+
+console.log('init done');
 
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');

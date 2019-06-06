@@ -28,6 +28,7 @@ new Vue({
       if (this.event.title.trim()) {
         this.$http.post('/api/events', this.event)
           .success(function (res) {
+            this.event.id = res.eventId;
             this.events.push(this.event);
             console.log('Event added!');
           })
@@ -41,8 +42,9 @@ new Vue({
       if (confirm('Are you sure you want to delete this event?')) {        
         this.$http.delete('api/events/' + id)
           .success(function (res) {
-            console.log(res);
-            var index = this.events.find(x => x.id === id)
+            console.log(res);            
+            var event = this.events.find(x => x.id === id);
+            var index = this.events.indexOf(event);
             this.events.splice(index, 1);
           })
           .error(function (err) {

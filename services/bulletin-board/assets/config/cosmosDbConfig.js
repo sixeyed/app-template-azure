@@ -1,9 +1,6 @@
 var cosmosDbConfig = module.exports = {};
 
-cosmosDbConfig.databaseAccount = {
-    name: 'cosmos-app-test-123',
-    options: {
-        location: 'westeurope',
-        databaseAccountOfferType: 'standard'
-    }
+cosmosDbConfig.connection = {
+    endpoint: 'https://cosmo11-dd3245.documents.azure.com',
+    key: 'xa3h1KyD5iqxSaGpGLucMkAjZxKcUp4OlSnkkBxOxop2QFJ89h2rSgyFtEqpixagPbruRBSh1tIwSqvWVXASLA=='
 };

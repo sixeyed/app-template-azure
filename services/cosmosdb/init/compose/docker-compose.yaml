@@ -1,5 +1,5 @@
 version: "3.6"
 
 secrets:
-  {{ .Name }}-password:
+  {{ .Name }}-connection:
     file: {{ .Name }}/cosmosDbConfig.js
