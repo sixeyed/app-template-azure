@@ -1,0 +1,9 @@
+version: "3.6"
+
+services:
+  {{ .Name }}:
+    build: {{ .Name }}
+    ports:
+      - {{ .Parameters.externalPort }}:8080 
+    secrets:
+    - cosmos-password #TODO - replace this with the name of the service with serviceId=cosmosDb

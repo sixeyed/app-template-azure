@@ -1,0 +1,14 @@
+{
+  "name": "app-template-azure-cosmosdb",
+  "version": "1.0.0",
+  "description": "Service initializer for CosmosDB",
+  "main": "init.js",
+  "author": "@EltonStoneman",
+  "license": "MIT",
+  "dependencies": {
+    "winston": "3.2.1",
+    "ms-rest-azure": "2.6.0",
+    "azure-arm-resource": "7.3.0",
+    "azure-arm-cosmosdb": "2.3.0"
+  }
+}

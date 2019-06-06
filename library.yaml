@@ -1,0 +1,88 @@
+apiVersion: v1alpha1
+generated: "2018-06-13T09:24:07.392654524Z"
+kind: RepositoryContent
+services:
+- apiVersion: v1alpha1
+  kind: ServiceTemplate
+  metadata:
+    name: cosmosdb
+    platforms:
+      - linux
+  spec:
+    description: Azure Cosmos DB database
+    icon: https://todo.png
+    source:
+      image: sixeyed/app-template-azure-cosmosdb-svc
+    title: Cosmos DB
+    parameters:
+    - name: region
+      defaultValue: eastus
+      description: Azure region
+      type: string
+    - name: resourceGroup
+      description: Azure resource group name
+      type: string
+    - name: cosmosDbAccount
+      description: Cosmos DB database name
+      type: string
+    - name: subscription
+      description: Azure subscription ID
+      type: string
+    - name: spAppId
+      description: Service Principal App ID
+      type: string
+    - name: spPassword
+      description: Service Principal password
+      type: string
+    - name: spTenant
+      description: Service Principal tenant
+      type: string
+- apiVersion: v1alpha1
+  kind: ServiceTemplate
+  metadata:
+    name: bulletinboard
+    platforms:
+      - linux
+  spec:
+    description: Node JS Bulletin Board sample app
+    icon: https://todo.png
+    source:
+      image: sixeyed/app-template-azure-bulletin-board-svc
+    title: Bulletin Board
+    parameters:
+    - name: nodeVersion
+      description: Node version
+      type: enum
+      values:
+      - value: "10.15.3"
+        description: "10"
+      - value: "9"
+        description: "9"
+      - value: "8"
+        description: "8"
+    - name: externalPort
+      defaultValue: "8081"
+      description: External port      
+      type: hostPort
+templates:
+- apiVersion: v1alpha1
+  kind: ApplicationTemplate
+  metadata:
+    name: cosmosdb
+    platforms:
+    - linux
+  spec:
+    description: CosmosDB
+    services:
+    - name: cosmos
+      serviceId: cosmosdb
+      parameters:
+        region: westeurope
+        subscription: 161aa8d6-1b59-4fff-946c-e1172b68d76c
+        spAppId: 29e34a1c-3783-4eaa-8d9b-d562177fbb1f
+        spTenant: 68c58dc9-c7db-440f-8c32-ac672250d642    
+    - name: bulletin-board
+      serviceId: bulletinboard
+      parameters:
+        nodeVersion: 10.15.3
+    title: NodeJS app with Azure Cosmos DB back-end
