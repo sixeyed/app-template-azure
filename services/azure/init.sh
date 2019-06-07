@@ -13,3 +13,7 @@ resourceGroup=$(echo "$azureParameters" | jq -c '.resourceGroup' --raw-output)
 region=$(echo "$azureParameters" | jq -c '.region' --raw-output)
 
 az group create --name $resourceGroup --location $region
+
+# copy the empty compose file (required by merger):
+mkdir -p /project
+cp docker-compose.yaml /project/docker-compose.yaml

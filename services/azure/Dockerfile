@@ -1,5 +1,5 @@
 # fetch dependencies
 FROM mcr.microsoft.com/azure-cli
-COPY init.sh /
+COPY * /
 ENTRYPOINT ["/bin/bash"]
 CMD ["/init.sh"]
