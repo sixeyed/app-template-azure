@@ -80,6 +80,25 @@ services:
       defaultValue: "8081"
       description: External port      
       type: hostPort
+- apiVersion: v1alpha1
+  kind: ServiceTemplate
+  metadata:
+    name: functions-api
+    platforms:
+      - linux
+  spec:
+    description: Azure Functions API for Cosmos DB
+    icon: https://raw.githubusercontent.com/sixeyed/app-template-azure/master/img/azure-functions.png
+    source:
+      image: sixeyed/app-template-azure-functions-svc
+    title: Azure Functions
+    parameters:
+    - name: storageAccount
+      description: Storage Account name
+      type: string
+    - name: appName
+      description: Functions App name
+      type: string
 templates:
 - apiVersion: v1alpha1
   kind: ApplicationTemplate
@@ -88,16 +107,18 @@ templates:
     platforms:
     - linux
   spec:
-    description: CosmosDB
+    description: Bulletin Board sample app connected to Azure services
     services:
     - name: azure
       serviceId: azure
       parameters:
         region: westeurope 
     - name: cosmos
-      serviceId: cosmosdb   
+      serviceId: cosmosdb
+    - name: functions-api
+      serviceId: functions-api
     - name: bulletin-board
       serviceId: bulletinboard
       parameters:
         nodeVersion: 10.15.3
-    title: NodeJS app with Azure Cosmos DB back-end
+    title: NodeJS with Azure Cosmos DB back-end and Azure Functions API

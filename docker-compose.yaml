@@ -16,3 +16,8 @@ services:
     image: sixeyed/app-template-azure-cosmosdb-svc
     build:
       context: ./services/cosmosdb
+
+  functionsapi-scaffold-svc:
+    image: sixeyed/app-template-azure-functions-api-svc
+    build:
+      context: ./services/functions-api
