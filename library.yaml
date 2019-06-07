@@ -5,15 +5,15 @@ services:
 - apiVersion: v1alpha1
   kind: ServiceTemplate
   metadata:
-    name: cosmosdb
+    name: azure
     platforms:
       - linux
   spec:
-    description: Azure Cosmos DB database
-    icon: https://raw.githubusercontent.com/sixeyed/app-template-azure/master/img/cosmos-db.png
+    description: Azure configuration
+    icon: https://raw.githubusercontent.com/sixeyed/app-template-azure/master/img/azure.png
     source:
-      image: sixeyed/app-template-azure-cosmosdb-svc
-    title: Cosmos DB
+      image: sixeyed/app-template-azure-svc
+    title: Azure 
     parameters:
     - name: region
       defaultValue: eastus
@@ -22,20 +22,36 @@ services:
     - name: resourceGroup
       description: Azure resource group name
       type: string
-    - name: cosmosDbAccount
-      description: Cosmos DB database name
-      type: string
     - name: subscription
       description: Azure subscription ID
+      type: string
+    - name: spName
+      description: Service Principal Name
       type: string
     - name: spAppId
       description: Service Principal App ID
       type: string
+    - name: spTenant
+      description: Service Principal tenant
+      type: string
     - name: spPassword
       description: Service Principal password
       type: string
-    - name: spTenant
-      description: Service Principal tenant
+- apiVersion: v1alpha1
+  kind: ServiceTemplate
+  metadata:
+    name: cosmosdb
+    platforms:
+      - linux
+  spec:
+    description: Cosmos DB
+    icon: https://raw.githubusercontent.com/sixeyed/app-template-azure/master/img/cosmos-db.png
+    source:
+      image: sixeyed/app-template-azure-cosmosdb-svc
+    title: Azure Cosmos DB database
+    parameters:
+    - name: cosmosDbAccount
+      description: Cosmos DB database name
       type: string
 - apiVersion: v1alpha1
   kind: ServiceTemplate
@@ -74,10 +90,12 @@ templates:
   spec:
     description: CosmosDB
     services:
-    - name: cosmos
-      serviceId: cosmosdb
+    - name: azure
+      serviceId: azure
       parameters:
-        region: westeurope    
+        region: westeurope 
+    - name: cosmos
+      serviceId: cosmosdb   
     - name: bulletin-board
       serviceId: bulletinboard
       parameters:

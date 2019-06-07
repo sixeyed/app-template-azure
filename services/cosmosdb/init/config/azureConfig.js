@@ -1,26 +1,26 @@
 var azureConfig = module.exports = {};
 
 azureConfig.resourceGroup = {
-    name: '{{ .Parameters.resourceGroup }}',
+    name: '{{range .Services}} {{if eq "azure" .ID}} {{ .Parameters.resourceGroup }} {{end}} {{end}}',
     options: {
-        location: '{{ .Parameters.region }}'
+        location: '{{range .Services}} {{if eq "azure" .ID}} {{ .Parameters.region }} {{end}} {{end}}'
     }
 };
 
 azureConfig.subscription = {
-    id: '{{ .Parameters.subscription }}'
+    id: '{{range .Services}} {{if eq "azure" .ID}} {{ .Parameters.subscription }} {{end}} {{end}}'
 };
 
 azureConfig.servicePrincipal = {
-    appId: '{{ .Parameters.spAppId }}',
-    password: '{{ .Parameters.spPassword }}',
-    tenant: '{{ .Parameters.spTenant }}'
+    appId: '{{range .Services}} {{if eq "azure" .ID}} {{ .Parameters.spAppId }} {{end}} {{end}}',
+    password: '{{range .Services}} {{if eq "azure" .ID}} {{ .Parameters.spPassword }} {{end}} {{end}}',
+    tenant: '{{range .Services}} {{if eq "azure" .ID}} {{ .Parameters.spTenant }} {{end}} {{end}}'
 };
 
 azureConfig.databaseAccount = {
     name: '{{ .Parameters.cosmosDbAccount }}',
     options: {
-        location: '{{ .Parameters.region }}',
+        location: '{{range .Services}} {{if eq "azure" .ID}} {{ .Parameters.region }} {{end}} {{end}}',
         databaseAccountOfferType: 'standard'
     }
 };

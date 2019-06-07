@@ -2,6 +2,11 @@ version: "3.6"
 
 services:
 
+  azure-scaffold-svc:
+    image: sixeyed/app-template-azure-svc
+    build:
+      context: ./services/azure
+
   bulletinboard-scaffold-svc:
     image: sixeyed/app-template-azure-bulletin-board-svc
     build:
