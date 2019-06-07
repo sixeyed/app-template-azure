@@ -21,8 +21,22 @@ appName=$(echo "$functionsParameters" | jq -c '.appName' --raw-output)
 
 # create storage account & functions app
 az storage account create --name $storageAccount --location $region --resource-group $resourceGroup --sku Standard_LRS
-az functionapp create --resource-group $resourceGroup --consumption-plan-location $region --name $appName --storage-account $storageAccount --runtime nodejs
+az functionapp create --resource-group $resourceGroup --consumption-plan-location $region --name $appName --storage-account $storageAccount --runtime node
 
-# copy assets - add interpolation here if we need it
+# copy assets
 mkdir -p /project
-cp /assets /project
+cp -r /assets /project
+
+#add interpolation here 
+#TODO - this makes more sense in Run rather than Scaffold stage, 
+#but at runtime we won't have any of the credentials
+
+# package & deploy
+mkdir -p /function
+cp -r /project/assets/bulletin-board-api/* /function
+cd /function
+zip -r /function.zip .
+az functionapp deployment source config-zip -g $resourceGroup -n $appName --src /function.zip
+
+# copy the empty compose file (required by merger):
+cp docker-compose.yaml /project/docker-compose.yaml
