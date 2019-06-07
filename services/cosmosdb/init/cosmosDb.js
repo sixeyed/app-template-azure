@@ -14,47 +14,52 @@ exports.ensureDb = function () {
         azureConfig.servicePrincipal.password,
         azureConfig.servicePrincipal.tenant,
         (err, credentials) => {
+            if (err) {
+                log.Logger.error('** Create Resource Group failed: ', err);
+                return 1
+            }
+
             log.Logger.debug('Logged in with SP');
-            
+
             resourceClient = new resourceManagementClient(credentials, azureConfig.subscription.id);
             resourceClient.resourceGroups.createOrUpdate(azureConfig.resourceGroup.name, azureConfig.resourceGroup.options)
-            .then(resourceGroup => {
-                log.Logger.debug('Resource group: %s is ready', resourceGroup.name);
-            
-                cosmosDbClient = new cosmosDBManagementClient(credentials, azureConfig.subscription.id);
-                cosmosDbClient.databaseAccounts.createOrUpdate(azureConfig.resourceGroup.name, azureConfig.databaseAccount.name, azureConfig.databaseAccount.options)
-                .then(databaseAccount => {
-                    log.Logger.debug('Database account: %s is ready', databaseAccount.name);
-                    cosmosDbClient.databaseAccounts.listKeys(resourceGroup.name, databaseAccount.name)
-                    .then(keys => {
-                        log.Logger.debug('Fetched keys');
+                .then(resourceGroup => {
+                    log.Logger.debug('Resource group: %s is ready', resourceGroup.name);
 
-                        var cosmosDbConfig = {
-                            connection: {
-                                endpoint: 'https://' + databaseAccount.name + '.documents.azure.com',
-                                key: keys.primaryMasterKey
-                            }
-                        };
+                    cosmosDbClient = new cosmosDBManagementClient(credentials, azureConfig.subscription.id);
+                    cosmosDbClient.databaseAccounts.createOrUpdate(azureConfig.resourceGroup.name, azureConfig.databaseAccount.name, azureConfig.databaseAccount.options)
+                        .then(databaseAccount => {
+                            log.Logger.debug('Database account: %s is ready', databaseAccount.name);
+                            cosmosDbClient.databaseAccounts.listKeys(resourceGroup.name, databaseAccount.name)
+                                .then(keys => {
+                                    log.Logger.debug('Fetched keys');
 
-                        var templatePath = './templates/cosmosDbConfig.js';
-                        var data = fs.readFileSync(templatePath, 'utf8');
-                        var result = data.replace('%ENDPOINT%', 'https://' + databaseAccount.name + '.documents.azure.com')
-                                         .replace('%KEY%', keys.primaryMasterKey);                        
-                        
-                        var targetPath = '/project/cosmosDbConfig.js';
-                        fs.writeFileSync(targetPath, result, 'utf8');
-                        log.Logger.debug('Wrote connection details to: %s', targetPath);
-                    })
-                    .catch(err => {
-                        log.Logger.error('** List Connection Strings failed: ', err);
-                    });
+                                    var cosmosDbConfig = {
+                                        connection: {
+                                            endpoint: 'https://' + databaseAccount.name + '.documents.azure.com',
+                                            key: keys.primaryMasterKey
+                                        }
+                                    };
+
+                                    var templatePath = './templates/cosmosDbConfig.js';
+                                    var data = fs.readFileSync(templatePath, 'utf8');
+                                    var result = data.replace('%ENDPOINT%', 'https://' + databaseAccount.name + '.documents.azure.com')
+                                        .replace('%KEY%', keys.primaryMasterKey);
+
+                                    var targetPath = '/project/cosmosDbConfig.js';
+                                    fs.writeFileSync(targetPath, result, 'utf8');
+                                    log.Logger.debug('Wrote connection details to: %s', targetPath);
+                                })
+                                .catch(err => {
+                                    log.Logger.error('** List Connection Strings failed: ', err);
+                                });
+                        })
+                        .catch(err => {
+                            log.Logger.error('** Create Database Account failed: ', err);
+                        });
                 })
                 .catch(err => {
-                    log.Logger.error('** Create Database Account failed: ', err);
+                    log.Logger.error('** Create Resource Group failed: ', err);
                 });
-            })
-            .catch(err => {
-                log.Logger.error('** Create Resource Group failed: ', err);
-            });
         });
-  };
+};
