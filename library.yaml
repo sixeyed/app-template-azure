@@ -90,7 +90,7 @@ services:
     description: Azure Functions API for Cosmos DB
     icon: https://raw.githubusercontent.com/sixeyed/app-template-azure/master/img/azure-functions.png
     source:
-      image: sixeyed/app-template-azure-functions-svc
+      image: sixeyed/app-template-azure-functions-api-svc
     title: Azure Functions
     parameters:
     - name: storageAccount
@@ -103,7 +103,7 @@ templates:
 - apiVersion: v1alpha1
   kind: ApplicationTemplate
   metadata:
-    name: cosmosdb
+    name: bulletin-board
     platforms:
     - linux
   spec:
