@@ -39,4 +39,4 @@ zip -r /function.zip .
 az functionapp deployment source config-zip -g $resourceGroup -n $appName --src /function.zip
 
 # copy the empty compose file (required by merger):
-cp docker-compose.yaml /project/docker-compose.yaml
+cp /assets/docker-compose.yaml /project/docker-compose.yaml
