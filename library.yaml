@@ -99,6 +99,31 @@ services:
     - name: appName
       description: Functions App name
       type: string
+- apiVersion: v1alpha1
+  kind: ServiceTemplate
+  metadata:
+    name: active-directory
+    platforms:
+      - linux
+  spec:
+    description: Active Directory Domain Controller
+    icon: https://raw.githubusercontent.com/sixeyed/app-template-azure/master/img/active-directory.png
+    source:
+      image: stevenfollis/app-template-azure-active-directory
+    title: Active Directory
+    parameters:
+    - name: adminUsername
+      description: Admin Username
+      type: string
+    - name: adminPassword
+      description: Admin Password
+      type: string
+    - name: domainName
+      description: Domain FQDN
+      type: string
+    - name: dnsPrefix
+      description: DNS Prefix
+      type: string
 templates:
 - apiVersion: v1alpha1
   kind: ApplicationTemplate
