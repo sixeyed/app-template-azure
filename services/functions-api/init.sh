@@ -23,13 +23,24 @@ appName=$(echo "$functionsParameters" | jq -c '.appName' --raw-output)
 az storage account create --name $storageAccount --location $region --resource-group $resourceGroup --sku Standard_LRS
 az functionapp create --resource-group $resourceGroup --consumption-plan-location $region --name $appName --storage-account $storageAccount --runtime node
 
+# parse cosmos parameters
+cosmosParameters=$(jq -c '.services | map(select(.serviceId == "cosmosdb"))[0].parameters' /run/configuration)
+cosmosDbAccount=$(echo "$cosmosParameters" | jq -c '.cosmosDbAccount' --raw-output)
+cosmosEndpoint="https://$cosmosDbAccount.documents.azure.com"
+
+# add settings for the demo function
+az functionapp config appsettings set --name $appName --resource-group $resourceGroup --settings "cosmosEndpoint=$cosmosEndpoint"
+az functionapp config appsettings set --name $appName --resource-group $resourceGroup --settings "cosmosKey=?"
+az functionapp config appsettings set --name $appName --resource-group $resourceGroup --settings "cosmosDatabase=BulletinBoard"
+az functionapp config appsettings set --name $appName --resource-group $resourceGroup --settings "cosmosContainer=Events"
+
 # copy assets
 mkdir -p /project
 cp -r /assets /project
 
 #add interpolation here 
 #TODO - this makes more sense in Run rather than Scaffold stage, 
-#but at runtime we won't have any of the credentials
+#but until we have credential helper, at runtime we won't have any of the SP creds
 
 # package & deploy
 mkdir -p /function
