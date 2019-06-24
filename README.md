@@ -83,6 +83,15 @@ repositories:
 
 - Each event is stored as an item in CosmosDB. You can add or remove them from the app and see the data through the data explorer in the Azure Portal.
 
+## Teardown
+
+Delete the resource group you created.
+
+Delete the Service Principal:
+
+```
+az ad sp delete --id http://AppTemplate
+```
 
 ### Credits
 
